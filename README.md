@@ -41,16 +41,9 @@ Script SQL đầy đủ đặt tại: `Database/dukeshop_schema_and_seed.sql`.
    ```bash
    dotnet run
    ```
-4. Mở trình duyệt truy cập địa chỉ hiển thị trên Terminal (thường là `http://localhost:5000` hoặc `http://localhost:5xxx`) và nhấn `Ctrl + F5`.
+4. Mở trình duyệt truy cập địa chỉ hiển thị trên Terminal ( là `http://localhost:5000`) và nhấn `Ctrl + F5`.
 
-## 4. Tài khoản kiểm thử (Dành cho nhóm thuyết trình & Giảng viên chấm điểm)
-
-| Vai trò | Tên đăng nhập | Mật khẩu | Quyền hạn |
-| :--- | :--- | :--- | :--- |
-| **Quản lý (ADMIN)** | `quanly` | `DukeShop@2026` | Toàn quyền CRUD Sản phẩm, Danh mục, Lập phiếu Nhập/Xuất kho, Khôi phục dữ liệu, Hồ sơ cá nhân |
-| **Nhân viên (STAFF)** | `nhanvien01` | `NhanVien@123` | Chỉ xem sản phẩm/danh mục/lịch sử kho, Tìm kiếm/Lọc/Phân trang, Xem thống kê, Xuất Excel, Hồ sơ cá nhân |
-
-## 5. Danh sách RESTful API chính
+## 4. Danh sách RESTful API chính
 
 - `POST /api/auth/login` — Đăng nhập & cấp Bearer Token
 - `POST /api/auth/register` — Đăng ký tài khoản Nhân viên mới
