@@ -236,8 +236,13 @@ document.getElementById("register-form").addEventListener("submit", async functi
     }
     if (!valid) return;
 
-    const payload = { fullName, username, email, phone, password };
-
+    const payload = {
+    fullName,
+    username,
+    email: email || null,
+    phone: phone || null,
+    password
+};
     try {
         const res = await fetch(`${AUTH_API_URL}/register`, {
             method: "POST",
