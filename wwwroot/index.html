@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DukeShop ERP — Hệ Thống Quản Trị Kho &amp; Bán Hàng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=7.0">
+</head>
+<body>
+
+    <div id="auth-overlay" class="auth-overlay">
+        <div class="auth-modal">
+            <div class="auth-brand">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <div>
+                    <h2>DukeShop ERP</h2>
+                    <span>Hệ thống Quản trị Kho &amp; Bán hàng</span>
+                </div>
+            </div>
+
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab active" id="tab-login" onclick="switchAuthTab('LOGIN')">
+                    <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                </button>
+                <button type="button" class="auth-tab" id="tab-register" onclick="switchAuthTab('REGISTER')">
+                    <i class="fa-solid fa-user-plus"></i> Đăng ký NV
+                </button>
+                <button type="button" class="auth-tab" id="tab-forgot" onclick="switchAuthTab('FORGOT')">
+                    <i class="fa-solid fa-key"></i> Quên MK
+                </button>
+            </div>
+
+            <form id="login-form" novalidate>
+                <div class="form-group">
+                    <label for="login-username">Tên đăng nhập <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user input-icon"></i>
+                        <input type="text" id="login-username" placeholder="Nhập tên đăng nhập">
+                    </div>
+                    <small class="error-msg" id="err-login-username"></small>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-row">
+                        <label for="login-password">Mật khẩu <span class="req">*</span></label>
+                        <a href="javascript:void(0)" class="forgot-link" onclick="switchAuthTab('FORGOT')">Quên mật khẩu?</a>
+                    </div>
+                    <div class="input-wrapper has-toggle">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="login-password" placeholder="Nhập mật khẩu (tối thiểu 8 ký tự)">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('login-password', this)" title="Hiện / Ẩn mật khẩu">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="error-msg" id="err-login-password"></small>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Đăng nhập
+                </button>
+
+                <div class="auth-switch-footer">
+                    Nhân viên mới chưa có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('REGISTER')">Đăng ký ngay</a>
+                </div>
+            </form>
+
+            <form id="register-form" style="display: none;" novalidate>
+                <div class="role-fixed-note">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <span>Đăng ký tài khoản dành cho <strong>Nhân viên kho / bán hàng</strong>.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-fullname">Họ và tên <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-id-card input-icon"></i>
+                        <input type="text" id="reg-fullname" placeholder="Nhập họ và tên đầy đủ">
+                    </div>
+                    <small class="error-msg" id="err-reg-fullname"></small>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="reg-username">Tên đăng nhập <span class="req">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user-check input-icon"></i>
+                            <input type="text" id="reg-username" placeholder="Tối thiểu 3 ký tự">
+                        </div>
+                        <small class="error-msg" id="err-reg-username"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-phone">Số điện thoại</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-phone input-icon"></i>
+                            <input type="text" id="reg-phone" placeholder="Nhập số điện thoại">
+                        </div>
+                        <small class="error-msg"></small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-email">Email liên hệ</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" id="reg-email" placeholder="example@dukeshop.vn">
+                    </div>
+                    <small class="error-msg" id="err-reg-email"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-password">Mật khẩu <span class="req">*</span></label>
+                    <div class="input-wrapper has-toggle">
+                        <i class="fa-solid fa-key input-icon"></i>
+                        <input type="password" id="reg-password" placeholder="Từ 8 ký tự trở lên">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('reg-password', this)" title="Hiện / Ẩn mật khẩu">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="error-msg" id="err-reg-password"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-confirm">Xác nhận mật khẩu <span class="req">*</span></label>
+                    <div class="input-wrapper has-toggle">
+                        <i class="fa-solid fa-shield-halved input-icon"></i>
+                        <input type="password" id="reg-confirm" placeholder="Nhập lại mật khẩu">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('reg-confirm', this)" title="Hiện / Ẩn mật khẩu">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="error-msg" id="err-reg-confirm"></small>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-user-plus"></i> Tạo tài khoản
+                </button>
+
+                <div class="auth-switch-footer">
+                    Đã có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('LOGIN')">Quay lại đăng nhập</a>
+                </div>
+            </form>
+
+            <form id="forgot-form" style="display: none;" novalidate>
+                <div class="role-fixed-note warning-note">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Nhập đúng <strong>Tên đăng nhập</strong> và <strong>Họ tên đã đăng ký</strong> để xác minh và đặt lại mật khẩu mới.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="forgot-username">Tên đăng nhập <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user input-icon"></i>
+                        <input type="text" id="forgot-username" placeholder="Nhập tên đăng nhập của bạn">
+                    </div>
+                    <small class="error-msg" id="err-forgot-username"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="forgot-fullname">Họ và tên đã đăng ký <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-id-badge input-icon"></i>
+                        <input type="text" id="forgot-fullname" placeholder="Nhập chính xác họ tên tài khoản">
+                    </div>
+                    <small class="error-msg" id="err-forgot-fullname"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="forgot-newpassword">Mật khẩu mới <span class="req">*</span></label>
+                    <div class="input-wrapper has-toggle">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="forgot-newpassword" placeholder="Từ 8 ký tự trở lên">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('forgot-newpassword', this)" title="Hiện / Ẩn mật khẩu">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="error-msg" id="err-forgot-newpassword"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="forgot-confirm">Xác nhận mật khẩu mới <span class="req">*</span></label>
+                    <div class="input-wrapper has-toggle">
+                        <i class="fa-solid fa-check-double input-icon"></i>
+                        <input type="password" id="forgot-confirm" placeholder="Nhập lại mật khẩu mới">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('forgot-confirm', this)" title="Hiện / Ẩn mật khẩu">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="error-msg" id="err-forgot-confirm"></small>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-rotate"></i> Đặt lại mật khẩu
+                </button>
+
+                <div class="auth-switch-footer">
+                    Đã nhớ mật khẩu? <a href="javascript:void(0)" onclick="switchAuthTab('LOGIN')">Quay lại đăng nhập</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div>
+                <div class="brand-logo">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>DukeShop</h2>
+                        <span>Quản trị bán hàng</span>
+                    </div>
+                </div>
+
+                <div class="nav-group-title">ĐIỀU HƯỚNG</div>
+                <nav class="menu">
+                    <a href="javascript:void(0)" id="nav-products" class="active" onclick="switchView('PRODUCTS')">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Quản lý sản phẩm</span>
+                    </a>
+                    <a href="javascript:void(0)" id="nav-inventory" onclick="switchView('INVENTORY')">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <span>Danh mục &amp; Lịch sử kho</span>
+                    </a>
+                    <a href="javascript:void(0)" id="nav-profile" onclick="switchView('PROFILE')">
+                        <i class="fa-solid fa-user-gear"></i>
+                        <span>Hồ sơ cá nhân</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="nav-group-title">TIỆN ÍCH</div>
+                <button class="btn btn-export" onclick="exportToCSV()">
+                    <i class="fa-solid fa-file-excel"></i> Xuất báo cáo Excel
+                </button>
+                <button class="btn btn-reset" id="btn-reset-data" onclick="resetSampleData()">
+                    <i class="fa-solid fa-rotate"></i> Khôi phục dữ liệu mẫu
+                </button>
+                <button class="btn btn-logout" onclick="logoutUser()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="breadcrumb">Trang chủ / <span id="breadcrumb-current">Quản lý sản phẩm</span></div>
+                    <h1 id="page-main-title">Quản lý kho hàng</h1>
+                </div>
+
+                <div class="header-right">
+                    <span class="server-badge" id="connection-badge">
+                        <span class="dot"></span> Trực tuyến
+                    </span>
+
+                    <div class="role-pill-fixed" id="header-role-pill">
+                        <i class="fa-solid fa-user-shield"></i>
+                        <span id="header-role-text">Quản lý</span>
+                    </div>
+
+                    <div class="user-profile" onclick="switchView('PROFILE')" title="Xem hồ sơ cá nhân">
+                        <div class="avatar" id="user-avatar">QL</div>
+                        <div class="user-detail">
+                            <strong id="user-display-name">Người dùng</strong>
+                            <span id="user-role-badge">Tài khoản</span>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-header-logout" onclick="logoutUser()" title="Đăng xuất">
+                        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                    </button>
+                </div>
+            </header>
+
+            <div id="staff-notice-banner" class="staff-banner" style="display: none;">
+                <div>
+                    <i class="fa-solid fa-circle-info"></i>
+                    <strong>Chế độ Nhân viên:</strong> Tài khoản đang ở quyền chỉ xem. Bạn có thể tra cứu, lọc sản phẩm, xem thống kê, lịch sử kho và xuất báo cáo Excel.
+                </div>
+                <button class="btn-banner-switch" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button>
+            </div>
+
+            <div id="view-products">
+                <section class="stats-grid">
+                    <div class="stat-card card-gradient-blue">
+                        <div class="stat-info">
+                            <h3>Tổng mặt hàng</h3>
+                            <p id="stat-total-products">0</p>
+                            <span class="stat-sub"><i class="fa-solid fa-check"></i> Đang kinh doanh</span>
+                        </div>
+                        <div class="stat-icon icon-blue">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card card-gradient-indigo">
+                        <div class="stat-info">
+                            <h3>Tổng số lượng tồn</h3>
+                            <p id="stat-total-stock">0</p>
+                            <span class="stat-sub"><i class="fa-solid fa-warehouse"></i> Đơn vị sản phẩm</span>
+                        </div>
+                        <div class="stat-icon icon-indigo">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card card-gradient-emerald">
+                        <div class="stat-info">
+                            <h3>Tổng giá trị kho</h3>
+                            <p id="stat-total-value">0 ₫</p>
+                            <span class="stat-sub"><i class="fa-solid fa-chart-line"></i> Ước tính tồn kho</span>
+                        </div>
+                        <div class="stat-icon icon-green">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card card-gradient-amber warning">
+                        <div class="stat-info">
+                            <h3>Sắp hết hàng (&lt; 5)</h3>
+                            <p id="stat-low-stock">0</p>
+                            <span class="stat-sub"><i class="fa-solid fa-bell"></i> Cần nhập bổ sung</span>
+                        </div>
+                        <div class="stat-icon icon-orange">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-layout" id="products-content-layout">
+                    <div class="card form-section" id="form-card">
+                        <div class="card-header">
+                            <h2 id="form-title"><i class="fa-solid fa-circle-plus"></i> Thêm Sản Phẩm Mới</h2>
+                            <span class="sub-badge" id="form-role-tag">Thông tin sản phẩm</span>
+                        </div>
+
+                        <form id="product-form" novalidate>
+                            <input type="hidden" id="product-id">
+
+                            <div class="form-group">
+                                <label for="product-name">Tên sản phẩm <span class="req">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-tag input-icon"></i>
+                                    <input type="text" id="product-name" placeholder="Nhập tên sản phẩm">
+                                </div>
+                                <small class="error-msg" id="err-name"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product-category">Danh mục phân loại <span class="req">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-layer-group input-icon"></i>
+                                    <select id="product-category">
+                                        <option value="">-- Chọn danh mục --</option>
+                                    </select>
+                                </div>
+                                <small class="error-msg" id="err-category"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product-price">Giá bán niêm yết (VNĐ) <span class="req">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-coins input-icon"></i>
+                                    <input type="number" id="product-price" placeholder="Nhập giá bán">
+                                </div>
+                                <small class="error-msg" id="err-price"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product-quantity">Số lượng tồn kho <span class="req">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-boxes-packing input-icon"></i>
+                                    <input type="number" id="product-quantity" placeholder="Nhập số lượng tồn">
+                                </div>
+                                <small class="error-msg" id="err-quantity"></small>
+                            </div>
+
+                            <div class="form-buttons">
+                                <button type="submit" class="btn btn-primary" id="btn-submit">
+                                    <i class="fa-solid fa-floppy-disk"></i> Lưu sản phẩm
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="btn-cancel" onclick="resetForm()" style="display: none;">
+                                    <i class="fa-solid fa-xmark"></i> Hủy
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card table-section">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-table-list"></i> Danh Sách Sản Phẩm</h2>
+                            <span class="sub-badge" id="table-count-label">Đang tải...</span>
+                        </div>
+
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="search-input" placeholder="Tìm theo tên hoặc mã sản phẩm..." oninput="handleFilterChange()">
+                            </div>
+
+                            <select id="filter-category" onchange="handleFilterChange()">
+                                <option value="ALL">Tất cả danh mục</option>
+                            </select>
+
+                            <select id="sort-select" onchange="handleFilterChange()">
+                                <option value="DEFAULT">Sắp xếp mặc định</option>
+                                <option value="PRICE_ASC">Giá: Thấp đến Cao</option>
+                                <option value="PRICE_DESC">Giá: Cao đến Thấp</option>
+                                <option value="NAME_ASC">Tên: A - Z</option>
+                                <option value="STOCK_ASC">Tồn kho: Ít đến Nhiều</option>
+                            </select>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mã SP</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Danh mục</th>
+                                        <th>Giá bán</th>
+                                        <th>Tồn kho</th>
+                                        <th>Thành tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th id="th-actions" style="text-align: right;">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="product-tbody"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination-bar">
+                            <div class="page-info" id="page-info-text">Hiển thị 0 - 0 trên tổng số 0 sản phẩm</div>
+                            <div class="page-controls" id="pagination-controls"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="view-inventory" style="display: none;">
+                <section class="two-col-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-folder-tree"></i> Danh Mục Sản Phẩm</h2>
+                            <span class="sub-badge">Thống kê nhóm hàng</span>
+                        </div>
+
+                        <form id="category-form" class="inline-admin-form" novalidate>
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="cat-name">Tên danh mục mới <span class="req">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-folder-plus input-icon"></i>
+                                        <input type="text" id="cat-name" placeholder="Nhập tên danh mục">
+                                    </div>
+                                    <small class="error-msg" id="err-cat-name"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cat-desc">Mô tả ngắn</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-align-left input-icon"></i>
+                                        <input type="text" id="cat-desc" placeholder="Mô tả nhóm sản phẩm">
+                                    </div>
+                                    <small class="error-msg"></small>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-bottom: 16px;">
+                                <i class="fa-solid fa-plus"></i> Thêm danh mục
+                            </button>
+                        </form>
+
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tên danh mục</th>
+                                        <th>Số SP</th>
+                                        <th>Tổng tồn</th>
+                                        <th>Giá trị tồn</th>
+                                        <th id="th-cat-actions" style="text-align:right;">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="category-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card" id="stock-adjust-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-dolly"></i> Lập Phiếu Nhập / Xuất Kho</h2>
+                            <span class="sub-badge">Điều chỉnh tồn kho</span>
+                        </div>
+
+                        <form id="stock-adjust-form" novalidate>
+                            <div class="form-group">
+                                <label for="adjust-product">Chọn sản phẩm <span class="req">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-box input-icon"></i>
+                                    <select id="adjust-product"></select>
+                                </div>
+                                <small class="error-msg" id="err-adjust-product"></small>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="adjust-type">Loại phiếu <span class="req">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-arrows-left-right input-icon"></i>
+                                        <select id="adjust-type">
+                                            <option value="IMPORT">Nhập kho (+)</option>
+                                            <option value="EXPORT">Xuất kho (-)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="adjust-qty">Số lượng <span class="req">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-hashtag input-icon"></i>
+                                        <input type="number" id="adjust-qty" min="1" placeholder="Nhập số lượng">
+                                    </div>
+                                    <small class="error-msg" id="err-adjust-qty"></small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="adjust-note">Ghi chú giao dịch</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-note-sticky input-icon"></i>
+                                    <input type="text" id="adjust-note" placeholder="Nhập lý do nhập hoặc xuất kho">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fa-solid fa-check-double"></i> Xác nhận phiếu kho
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-clock-rotate-left"></i> Nhật Ký Biến Động Kho</h2>
+                        <span class="sub-badge">50 giao dịch gần nhất</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <th>Mã SP</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Loại thao tác</th>
+                                    <th>Biến động SL</th>
+                                    <th>Người thực hiện</th>
+                                    <th>Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-tbody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <div id="view-profile" style="display: none;">
+                <section class="two-col-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-id-card-clip"></i> Thông Tin Cá Nhân</h2>
+                            <span class="sub-badge" id="profile-role-pill">Đang hoạt động</span>
+                        </div>
+
+                        <form id="profile-form" novalidate>
+                            <div class="form-group">
+                                <label for="prof-username">Tên đăng nhập</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-at input-icon"></i>
+                                    <input type="text" id="prof-username" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="prof-fullname">Họ và tên <span class="req">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-user input-icon"></i>
+                                    <input type="text" id="prof-fullname" placeholder="Nhập họ và tên">
+                                </div>
+                                <small class="error-msg" id="err-prof-fullname"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="prof-email">Email liên hệ</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-envelope input-icon"></i>
+                                    <input type="email" id="prof-email" placeholder="Nhập địa chỉ email">
+                                </div>
+                                <small class="error-msg" id="err-prof-email"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="prof-phone">Số điện thoại</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-phone input-icon"></i>
+                                    <input type="text" id="prof-phone" placeholder="Nhập số điện thoại">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-shield-halved"></i> Đổi Mật Khẩu</h2>
+                            <span class="sub-badge">Bảo mật tài khoản</span>
+                        </div>
+
+                        <form id="change-password-form" novalidate>
+                            <div class="form-group">
+                                <label for="cp-current">Mật khẩu hiện tại <span class="req">*</span></label>
+                                <div class="input-wrapper has-toggle">
+                                    <i class="fa-solid fa-lock input-icon"></i>
+                                    <input type="password" id="cp-current" placeholder="Nhập mật khẩu hiện tại">
+                                    <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('cp-current', this)" title="Hiện / Ẩn mật khẩu">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                                <small class="error-msg" id="err-cp-current"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cp-new">Mật khẩu mới <span class="req">*</span></label>
+                                <div class="input-wrapper has-toggle">
+                                    <i class="fa-solid fa-key input-icon"></i>
+                                    <input type="password" id="cp-new" placeholder="Từ 8 ký tự trở lên">
+                                    <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('cp-new', this)" title="Hiện / Ẩn mật khẩu">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                                <small class="error-msg" id="err-cp-new"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cp-confirm">Xác nhận mật khẩu mới <span class="req">*</span></label>
+                                <div class="input-wrapper has-toggle">
+                                    <i class="fa-solid fa-check-double input-icon"></i>
+                                    <input type="password" id="cp-confirm" placeholder="Nhập lại mật khẩu mới">
+                                    <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('cp-confirm', this)" title="Hiện / Ẩn mật khẩu">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                                <small class="error-msg" id="err-cp-confirm"></small>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fa-solid fa-key"></i> Cập nhật mật khẩu
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="footer">
+                <p>&copy; 2026 <strong>DukeShop ERP</strong>. Hệ thống quản trị kho và bán hàng.</p>
+            </footer>
+        </main>
+    </div>
+
+    <div id="toast-box"></div>
+
+    <script>
+        window.switchAuthTab = function(tab) {
+            var loginForm = document.getElementById("login-form");
+            var registerForm = document.getElementById("register-form");
+            var forgotForm = document.getElementById("forgot-form");
+            var tabLogin = document.getElementById("tab-login");
+            var tabRegister = document.getElementById("tab-register");
+            var tabForgot = document.getElementById("tab-forgot");
+            if (!loginForm || !registerForm || !forgotForm) return;
+            loginForm.style.display = (tab === "LOGIN") ? "block" : "none";
+            registerForm.style.display = (tab === "REGISTER") ? "block" : "none";
+            forgotForm.style.display = (tab === "FORGOT") ? "block" : "none";
+            if (tabLogin) tabLogin.classList.toggle("active", tab === "LOGIN");
+            if (tabRegister) tabRegister.classList.toggle("active", tab === "REGISTER");
+            if (tabForgot) tabForgot.classList.toggle("active", tab === "FORGOT");
+        };
+
+        window.togglePasswordVisibility = function(inputId, btnEl) {
+            var input = document.getElementById(inputId);
+            if (!input) return;
+            var icon = btnEl ? btnEl.querySelector("i") : null;
+            if (input.type === "password") {
+                input.type = "text";
+                if (icon) { icon.classList.remove("fa-eye"); icon.classList.add("fa-eye-slash"); }
+            } else {
+                input.type = "password";
+                if (icon) { icon.classList.remove("fa-eye-slash"); icon.classList.add("fa-eye"); }
+            }
+        };
+    </script>
+    <script src="script.js?v=7.0"></script>
+</body>
+</html>
