@@ -8,30 +8,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="style.css?v=7.0">
 </head>
 <body>
 
     <div id="auth-overlay" class="auth-overlay">
-        <div class="auth-modal">
+        <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
             <div class="auth-brand">
                 <div class="logo-icon">
                     <i class="fa-solid fa-crown"></i>
                 </div>
                 <div>
-                    <h2>DukeShop ERP</h2>
+                    <h2 id="auth-title">DukeShop ERP</h2>
                     <span>Hệ thống Quản trị Kho &amp; Bán hàng</span>
                 </div>
             </div>
 
             <div class="auth-tabs">
-                <button type="button" class="auth-tab active" id="tab-login" onclick="switchAuthTab('LOGIN')">
+                <button type="button" class="auth-tab active" id="tab-login">
                     <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
                 </button>
-                <button type="button" class="auth-tab" id="tab-register" onclick="switchAuthTab('REGISTER')">
+                <button type="button" class="auth-tab" id="tab-register">
                     <i class="fa-solid fa-user-plus"></i> Đăng ký NV
                 </button>
-                <button type="button" class="auth-tab" id="tab-forgot" onclick="switchAuthTab('FORGOT')">
+                <button type="button" class="auth-tab" id="tab-forgot">
                     <i class="fa-solid fa-key"></i> Quên MK
                 </button>
             </div>
@@ -54,7 +55,7 @@
                     <div class="input-wrapper has-toggle">
                         <i class="fa-solid fa-lock input-icon"></i>
                         <input type="password" id="login-password" placeholder="Nhập mật khẩu (tối thiểu 8 ký tự)">
-                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('login-password', this)" title="Hiện / Ẩn mật khẩu">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('login-password', this)" aria-controls="login-password" aria-label="Hiện mật khẩu" title="Hiện mật khẩu">
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
@@ -118,7 +119,7 @@
                     <div class="input-wrapper has-toggle">
                         <i class="fa-solid fa-key input-icon"></i>
                         <input type="password" id="reg-password" placeholder="Từ 8 ký tự trở lên">
-                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('reg-password', this)" title="Hiện / Ẩn mật khẩu">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('reg-password', this)" aria-controls="reg-password" aria-label="Hiện mật khẩu" title="Hiện mật khẩu">
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
@@ -130,7 +131,7 @@
                     <div class="input-wrapper has-toggle">
                         <i class="fa-solid fa-shield-halved input-icon"></i>
                         <input type="password" id="reg-confirm" placeholder="Nhập lại mật khẩu">
-                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('reg-confirm', this)" title="Hiện / Ẩn mật khẩu">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('reg-confirm', this)" aria-controls="reg-confirm" aria-label="Hiện mật khẩu" title="Hiện mật khẩu">
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
@@ -175,7 +176,7 @@
                     <div class="input-wrapper has-toggle">
                         <i class="fa-solid fa-lock input-icon"></i>
                         <input type="password" id="forgot-newpassword" placeholder="Từ 8 ký tự trở lên">
-                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('forgot-newpassword', this)" title="Hiện / Ẩn mật khẩu">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('forgot-newpassword', this)" aria-controls="forgot-newpassword" aria-label="Hiện mật khẩu" title="Hiện mật khẩu">
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
@@ -187,7 +188,7 @@
                     <div class="input-wrapper has-toggle">
                         <i class="fa-solid fa-check-double input-icon"></i>
                         <input type="password" id="forgot-confirm" placeholder="Nhập lại mật khẩu mới">
-                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('forgot-confirm', this)" title="Hiện / Ẩn mật khẩu">
+                        <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('forgot-confirm', this)" aria-controls="forgot-confirm" aria-label="Hiện mật khẩu" title="Hiện mật khẩu">
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
@@ -205,7 +206,7 @@
         </div>
     </div>
 
-    <div class="app-container">
+    <div class="app-container" inert>
         <aside class="sidebar">
             <div>
                 <div class="brand-logo">
@@ -219,8 +220,8 @@
                 </div>
 
                 <div class="nav-group-title">ĐIỀU HƯỚNG</div>
-                <nav class="menu">
-                    <a href="javascript:void(0)" id="nav-products" class="active" onclick="switchView('PRODUCTS')">
+                <nav class="menu" aria-label="Điều hướng chính">
+                    <a href="javascript:void(0)" id="nav-products" class="active" aria-current="page" onclick="switchView('PRODUCTS')">
                         <i class="fa-solid fa-boxes-stacked"></i>
                         <span>Quản lý sản phẩm</span>
                     </a>
@@ -403,14 +404,14 @@
                         <div class="toolbar">
                             <div class="search-box">
                                 <i class="fa-solid fa-magnifying-glass"></i>
-                                <input type="text" id="search-input" placeholder="Tìm theo tên hoặc mã sản phẩm..." oninput="handleFilterChange()">
+                                <input type="text" id="search-input" aria-label="Tìm kiếm sản phẩm" placeholder="Tìm theo tên hoặc mã sản phẩm..." oninput="handleFilterChange()">
                             </div>
 
-                            <select id="filter-category" onchange="handleFilterChange()">
+                            <select id="filter-category" aria-label="Lọc theo danh mục" onchange="handleFilterChange()">
                                 <option value="ALL">Tất cả danh mục</option>
                             </select>
 
-                            <select id="sort-select" onchange="handleFilterChange()">
+                            <select id="sort-select" aria-label="Sắp xếp sản phẩm" onchange="handleFilterChange()">
                                 <option value="DEFAULT">Sắp xếp mặc định</option>
                                 <option value="PRICE_ASC">Giá: Thấp đến Cao</option>
                                 <option value="PRICE_DESC">Giá: Cao đến Thấp</option>
@@ -633,7 +634,7 @@
                                 <div class="input-wrapper has-toggle">
                                     <i class="fa-solid fa-lock input-icon"></i>
                                     <input type="password" id="cp-current" placeholder="Nhập mật khẩu hiện tại">
-                                    <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('cp-current', this)" title="Hiện / Ẩn mật khẩu">
+                                    <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('cp-current', this)" aria-controls="cp-current" aria-label="Hiện mật khẩu" title="Hiện mật khẩu">
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
                                 </div>
@@ -645,7 +646,7 @@
                                 <div class="input-wrapper has-toggle">
                                     <i class="fa-solid fa-key input-icon"></i>
                                     <input type="password" id="cp-new" placeholder="Từ 8 ký tự trở lên">
-                                    <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('cp-new', this)" title="Hiện / Ẩn mật khẩu">
+                                    <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('cp-new', this)" aria-controls="cp-new" aria-label="Hiện mật khẩu" title="Hiện mật khẩu">
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
                                 </div>
@@ -657,7 +658,7 @@
                                 <div class="input-wrapper has-toggle">
                                     <i class="fa-solid fa-check-double input-icon"></i>
                                     <input type="password" id="cp-confirm" placeholder="Nhập lại mật khẩu mới">
-                                    <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('cp-confirm', this)" title="Hiện / Ẩn mật khẩu">
+                                    <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('cp-confirm', this)" aria-controls="cp-confirm" aria-label="Hiện mật khẩu" title="Hiện mật khẩu">
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
                                 </div>
@@ -678,7 +679,7 @@
         </main>
     </div>
 
-    <div id="toast-box"></div>
+    <div id="toast-box" role="status" aria-live="polite"></div>
 
     <script>
         window.switchAuthTab = function(tab) {
@@ -689,6 +690,7 @@
             var tabRegister = document.getElementById("tab-register");
             var tabForgot = document.getElementById("tab-forgot");
             if (!loginForm || !registerForm || !forgotForm) return;
+            [loginForm, registerForm, forgotForm].forEach(hideFormPasswords);
             loginForm.style.display = (tab === "LOGIN") ? "block" : "none";
             registerForm.style.display = (tab === "REGISTER") ? "block" : "none";
             forgotForm.style.display = (tab === "FORGOT") ? "block" : "none";
@@ -697,18 +699,31 @@
             if (tabForgot) tabForgot.classList.toggle("active", tab === "FORGOT");
         };
 
-        window.togglePasswordVisibility = function(inputId, btnEl) {
-            var input = document.getElementById(inputId);
-            if (!input) return;
-            var icon = btnEl ? btnEl.querySelector("i") : null;
-            if (input.type === "password") {
-                input.type = "text";
-                if (icon) { icon.classList.remove("fa-eye"); icon.classList.add("fa-eye-slash"); }
-            } else {
-                input.type = "password";
-                if (icon) { icon.classList.remove("fa-eye-slash"); icon.classList.add("fa-eye"); }
+        function setPasswordVisibility(input, button, visible) {
+            input.type = visible ? "text" : "password";
+            const label = visible ? "Ẩn mật khẩu" : "Hiện mật khẩu";
+            button.setAttribute("aria-label", label);
+            button.title = label;
+            const icon = button.querySelector("i");
+            if (icon) {
+                icon.classList.toggle("fa-eye", !visible);
+                icon.classList.toggle("fa-eye-slash", visible);
             }
+        }
+
+        function hideFormPasswords(form) {
+            form.querySelectorAll(".btn-toggle-pw[aria-controls]").forEach(button => {
+                const input = document.getElementById(button.getAttribute("aria-controls"));
+                if (input) setPasswordVisibility(input, button, false);
+            });
+        }
+
+        window.togglePasswordVisibility = function(inputId, btnEl) {
+            const input = document.getElementById(inputId);
+            if (input && btnEl) setPasswordVisibility(input, btnEl, input.type === "password");
         };
+
+        document.addEventListener("reset", event => hideFormPasswords(event.target));
     </script>
     <script src="script.js?v=7.0"></script>
 </body>

@@ -50,6 +50,9 @@ body {
     background: #ffffff;
     width: 100%;
     max-width: 460px;
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
     border-radius: 20px;
     padding: 28px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
@@ -531,7 +534,7 @@ body {
 
 .content-layout {
     display: grid;
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: 350px minmax(0, 1fr);
     gap: 24px;
     align-items: start;
 }
@@ -602,12 +605,14 @@ body {
 }
 
 .input-wrapper.has-toggle input {
-    padding-right: 42px;
+    padding-right: 52px;
 }
 
 .btn-toggle-pw {
     position: absolute;
-    right: 10px;
+    right: 4px;
+    min-width: 40px;
+    min-height: 36px;
     background: transparent;
     border: none;
     color: #64748b;
@@ -896,7 +901,7 @@ table tbody tr:hover {
 
 .two-col-grid {
     display: grid;
-    grid-template-columns: 1.25fr 1fr;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
     gap: 24px;
     align-items: start;
 }
@@ -964,4 +969,33 @@ table tbody tr:hover {
     .stats-grid { grid-template-columns: 1fr; }
     .form-row-2 { grid-template-columns: 1fr; }
     .staff-banner { flex-direction: column; align-items: flex-start; }
+}
+
+/* Keep grid children and controls inside narrow viewports. */
+.main-content, .card, .header-right, .user-detail { min-width: 0; }
+.user-detail { overflow-wrap: anywhere; }
+.card-header { flex-wrap: wrap; gap: 8px; }
+.toolbar select { max-width: 100%; }
+@media screen and (max-width: 480px) {
+    .main-content { padding: 12px; }
+    .sidebar { padding: 16px 12px; }
+    .brand-logo, .menu { margin-bottom: 12px; }
+    .top-header, .card { padding: 14px; }
+    .toolbar { flex-direction: column; }
+    .search-box { min-width: 0; width: 100%; }
+    .toolbar select { width: 100%; }
+    .content-layout, .two-col-grid { gap: 14px; }
+}
+
+@media screen and (max-width: 480px) {
+    .auth-modal { padding: 16px; }
+    .auth-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .auth-tab { padding: 8px 4px; font-size: 12px; }
+    .auth-tab i { display: block; margin-bottom: 4px; }
+}
+
+/* Keep keyboard focus visible without changing the normal layout. */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }

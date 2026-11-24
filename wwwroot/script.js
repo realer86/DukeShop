@@ -90,6 +90,12 @@ function switchView(viewName) {
     document.getElementById("nav-inventory").classList.toggle("active", viewName === "INVENTORY");
     document.getElementById("nav-profile").classList.toggle("active", viewName === "PROFILE");
 
+    ["PRODUCTS", "INVENTORY", "PROFILE"].forEach(view => {
+        const link = document.getElementById(`nav-${view.toLowerCase()}`);
+        if (view === viewName) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+    });
+
     const bc = document.getElementById("breadcrumb-current");
     const title = document.getElementById("page-main-title");
 
@@ -124,10 +130,13 @@ function checkExistingSession() {
 
 function openAuthModal() {
     document.getElementById("auth-overlay").style.display = "flex";
+    document.querySelector(".app-container").inert = true;
+    document.getElementById("tab-login").focus();
 }
 
 function closeAuthModal() {
     document.getElementById("auth-overlay").style.display = "none";
+    document.querySelector(".app-container").inert = false;
 }
 
 function clearAuthErrors() {
