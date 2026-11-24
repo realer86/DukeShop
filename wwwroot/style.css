@@ -531,7 +531,7 @@ body {
 
 .content-layout {
     display: grid;
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: 350px minmax(0, 1fr);
     gap: 24px;
     align-items: start;
 }
@@ -896,7 +896,7 @@ table tbody tr:hover {
 
 .two-col-grid {
     display: grid;
-    grid-template-columns: 1.25fr 1fr;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
     gap: 24px;
     align-items: start;
 }
@@ -964,4 +964,20 @@ table tbody tr:hover {
     .stats-grid { grid-template-columns: 1fr; }
     .form-row-2 { grid-template-columns: 1fr; }
     .staff-banner { flex-direction: column; align-items: flex-start; }
+}
+
+/* Keep grid children and controls inside narrow viewports. */
+.main-content, .card, .header-right, .user-detail { min-width: 0; }
+.user-detail { overflow-wrap: anywhere; }
+.card-header { flex-wrap: wrap; gap: 8px; }
+.toolbar select { max-width: 100%; }
+@media screen and (max-width: 480px) {
+    .main-content { padding: 12px; }
+    .sidebar { padding: 16px 12px; }
+    .brand-logo, .menu { margin-bottom: 12px; }
+    .top-header, .card { padding: 14px; }
+    .toolbar { flex-direction: column; }
+    .search-box { min-width: 0; width: 100%; }
+    .toolbar select { width: 100%; }
+    .content-layout, .two-col-grid { gap: 14px; }
 }
