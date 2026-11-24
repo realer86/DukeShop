@@ -605,12 +605,14 @@ body {
 }
 
 .input-wrapper.has-toggle input {
-    padding-right: 42px;
+    padding-right: 52px;
 }
 
 .btn-toggle-pw {
     position: absolute;
-    right: 10px;
+    right: 4px;
+    min-width: 40px;
+    min-height: 36px;
     background: transparent;
     border: none;
     color: #64748b;
