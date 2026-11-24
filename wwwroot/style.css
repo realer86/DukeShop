@@ -993,3 +993,9 @@ table tbody tr:hover {
     .auth-tab { padding: 8px 4px; font-size: 12px; }
     .auth-tab i { display: block; margin-bottom: 4px; }
 }
+
+/* Keep keyboard focus visible without changing the normal layout. */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}

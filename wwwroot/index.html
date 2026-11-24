@@ -8,18 +8,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="style.css?v=7.0">
 </head>
 <body>
 
     <div id="auth-overlay" class="auth-overlay">
-        <div class="auth-modal">
+        <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
             <div class="auth-brand">
                 <div class="logo-icon">
                     <i class="fa-solid fa-crown"></i>
                 </div>
                 <div>
-                    <h2>DukeShop ERP</h2>
+                    <h2 id="auth-title">DukeShop ERP</h2>
                     <span>Hệ thống Quản trị Kho &amp; Bán hàng</span>
                 </div>
             </div>
@@ -205,7 +206,7 @@
         </div>
     </div>
 
-    <div class="app-container">
+    <div class="app-container" inert>
         <aside class="sidebar">
             <div>
                 <div class="brand-logo">
@@ -219,8 +220,8 @@
                 </div>
 
                 <div class="nav-group-title">ĐIỀU HƯỚNG</div>
-                <nav class="menu">
-                    <a href="javascript:void(0)" id="nav-products" class="active" onclick="switchView('PRODUCTS')">
+                <nav class="menu" aria-label="Điều hướng chính">
+                    <a href="javascript:void(0)" id="nav-products" class="active" aria-current="page" onclick="switchView('PRODUCTS')">
                         <i class="fa-solid fa-boxes-stacked"></i>
                         <span>Quản lý sản phẩm</span>
                     </a>
@@ -403,14 +404,14 @@
                         <div class="toolbar">
                             <div class="search-box">
                                 <i class="fa-solid fa-magnifying-glass"></i>
-                                <input type="text" id="search-input" placeholder="Tìm theo tên hoặc mã sản phẩm..." oninput="handleFilterChange()">
+                                <input type="text" id="search-input" aria-label="Tìm kiếm sản phẩm" placeholder="Tìm theo tên hoặc mã sản phẩm..." oninput="handleFilterChange()">
                             </div>
 
-                            <select id="filter-category" onchange="handleFilterChange()">
+                            <select id="filter-category" aria-label="Lọc theo danh mục" onchange="handleFilterChange()">
                                 <option value="ALL">Tất cả danh mục</option>
                             </select>
 
-                            <select id="sort-select" onchange="handleFilterChange()">
+                            <select id="sort-select" aria-label="Sắp xếp sản phẩm" onchange="handleFilterChange()">
                                 <option value="DEFAULT">Sắp xếp mặc định</option>
                                 <option value="PRICE_ASC">Giá: Thấp đến Cao</option>
                                 <option value="PRICE_DESC">Giá: Cao đến Thấp</option>
@@ -678,7 +679,7 @@
         </main>
     </div>
 
-    <div id="toast-box"></div>
+    <div id="toast-box" role="status" aria-live="polite"></div>
 
     <script>
         window.switchAuthTab = function(tab) {
