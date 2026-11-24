@@ -50,6 +50,9 @@ body {
     background: #ffffff;
     width: 100%;
     max-width: 460px;
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
     border-radius: 20px;
     padding: 28px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
@@ -980,4 +983,11 @@ table tbody tr:hover {
     .search-box { min-width: 0; width: 100%; }
     .toolbar select { width: 100%; }
     .content-layout, .two-col-grid { gap: 14px; }
+}
+
+@media screen and (max-width: 480px) {
+    .auth-modal { padding: 16px; }
+    .auth-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .auth-tab { padding: 8px 4px; font-size: 12px; }
+    .auth-tab i { display: block; margin-bottom: 4px; }
 }
